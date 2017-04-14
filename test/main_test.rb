@@ -12,8 +12,13 @@ ActiveRecord::Migration.verbose = false
 
 class Order < ActiveRecord::Base
   include Workflow
+
+  def upate_wf_change
+    @capture_wf_change = workflow_state_changed?
+  end
+
   workflow do
-    with_callbacks
+    with_callbacks after: [:update_wf_change]
 
     state :submitted do
       event :accept, :transitions_to => :accepted, :meta => {:weight => 8} do |reviewer, args|
@@ -62,7 +67,7 @@ end
 class SpecialSmallImage < SmallImage
 end
 
-Order.after_update { @capture_wf_change = workflow_state_changed? }
+Order.after_update { |r| r.update_wf_change }
 
 class MainTest < ActiveRecordTestCase
 

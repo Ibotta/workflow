@@ -5,7 +5,7 @@ require 'workflow/errors'
 
 module Workflow
   class Specification
-    attr_accessor :states, :initial_state, :meta, :include_callbacks,
+    attr_accessor :states, :initial_state, :meta, :callbacks,
       :on_transition_proc, :before_transition_proc, :after_transition_proc, :on_error_proc
 
     def initialize(meta = {}, &specification)
@@ -14,8 +14,10 @@ module Workflow
       instance_eval(&specification)
     end
 
-    def with_callbacks
-      @include_callbacks = true
+    def with_callbacks(callbacks = {})
+      @callbacks = {}
+      @callbacks[:after] =  callbacks[:after]  || []
+      @callbacks[:before] = callbacks[:before] || []
     end
 
     def state_names
