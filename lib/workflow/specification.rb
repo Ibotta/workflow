@@ -5,19 +5,13 @@ require 'workflow/errors'
 
 module Workflow
   class Specification
-    attr_accessor :states, :initial_state, :meta, :callbacks,
+    attr_accessor :states, :initial_state, :meta,
       :on_transition_proc, :before_transition_proc, :after_transition_proc, :on_error_proc
 
     def initialize(meta = {}, &specification)
       @states = Hash.new
       @meta = meta
-      @callbacks = { after: [], before: [] }
       instance_eval(&specification)
-    end
-
-    def with_callbacks(callbacks = {})
-      @callbacks[:after] =  callbacks[:after]  || []
-      @callbacks[:before] = callbacks[:before] || []
     end
 
     def state_names
