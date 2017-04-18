@@ -11,11 +11,11 @@ module Workflow
     def initialize(meta = {}, &specification)
       @states = Hash.new
       @meta = meta
+      @callbacks = { after: [], before: [] }
       instance_eval(&specification)
     end
 
     def with_callbacks(callbacks = {})
-      @callbacks = {}
       @callbacks[:after] =  callbacks[:after]  || []
       @callbacks[:before] = callbacks[:before] || []
     end
