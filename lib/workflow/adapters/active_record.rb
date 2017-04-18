@@ -18,9 +18,10 @@ module Workflow
           # Rails 3.1 or newer
           #return update_column self.class.workflow_column, new_value
 
+          self[self.class.workflow_column] = new_value
+
           run_workflow_callbacks_for :before
 
-          self[self.class.workflow_column] = new_value
           update_column self.class.workflow_column, new_value
 
           run_workflow_callbacks_for :after
