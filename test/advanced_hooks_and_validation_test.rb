@@ -17,6 +17,7 @@ ActiveRecord::Migration.verbose = false
 #
 # Here is a sample that illustrates how to use the presence validation:
 # (use case suggested by http://github.com/southdesign)
+
 class Article < ActiveRecord::Base
   include Workflow
   workflow do
