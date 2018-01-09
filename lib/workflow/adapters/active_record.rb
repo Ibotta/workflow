@@ -15,13 +15,7 @@ module Workflow
         # On transition the new workflow state is immediately saved in the
         # database.
         def persist_workflow_state(new_value)
-          # set dirty state of the column
-          self[self.class.workflow_column] = new_value
-          # in rails 5 update_column removes the dirty state on the instance
-          # using the class method maintains the dirty state
-          self.class
-            .where(self.class.primary_key => self[self.class.primary_key])
-            .update_all(self.class.workflow_column => new_value)
+          update_column self.class.workflow_column, new_value
         end
 
         private
