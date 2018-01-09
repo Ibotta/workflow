@@ -16,6 +16,7 @@ module Workflow
         # database.
         def persist_workflow_state(new_value)
           update_column self.class.workflow_column, new_value
+          send "#{self.class.workflow_column}_will_change!"
         end
 
         private
